@@ -1,0 +1,28 @@
+{
+  "name": "stashly-web",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "node --test tests/format.test.ts tests/validation.test.ts"
+  },
+  "dependencies": {
+    "@bg-dev/nuxt-naiveui": "^2.0.0",
+    "@nuxtjs/i18n": "^10.4.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "@vicons/ionicons5": "^0.13.0",
+    "naive-ui": "^2.44.1",
+    "nuxt": "^4.4.7",
+    "tailwindcss": "^4.3.0",
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.11"
+  }
+}
