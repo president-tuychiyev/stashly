@@ -88,6 +88,7 @@ require (
 	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
+	github.com/president-tuychiyev/goravel-ship v0.0.0-20260617121609-a8506df1a029 // indirect
 	github.com/pterm/pterm v0.12.83 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect

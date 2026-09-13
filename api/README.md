@@ -230,3 +230,7 @@ config                 one file per concern
 database               migrations and seeders
 routes                 the whole route table
 ```
+
+```
+go run . artisan ship --user=kuadmin --ip=213.230.122.210 --port=222 --path=/home/www/stashly.tiuac.uz/api --container==stashly_tiuac_api --binary=/app/main
+```

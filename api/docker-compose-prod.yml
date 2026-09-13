@@ -1,17 +1,17 @@
 services:
-  app:
+  stashly_tiuac_api:
     image: ${IMAGE_NAME:-app}:${IMAGE_TAG:-latest}
-    container_name: app
+    container_name: stashly_tiuac_api
     restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - "8807:8807"
     volumes:
       - ./storage:/app/storage
     networks:
-      - app_network
+      - president
 
 networks:
-  app_network:
+  president:
     external: true

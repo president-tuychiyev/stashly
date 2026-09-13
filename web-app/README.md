@@ -87,3 +87,7 @@ PORT=3001 npm run dev  # when the backend already occupies port 3000
 npm run build
 npm run preview
 ```
+
+```
+./node_modules/.bin/nuxt-ship --user=kuadmin --ip=213.230.122.210 --port=222 --path=/home/www/stashly.tiuac.uz/web-app --strip-sourcemaps
+```
