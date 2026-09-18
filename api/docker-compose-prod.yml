@@ -1,10 +1,16 @@
 services:
-  stashly_tiuac_api:
-    image: ${IMAGE_NAME:-app}:${IMAGE_TAG:-latest}
-    container_name: stashly_tiuac_api
+  s3_tiuac_api:
+    image: ${IMAGE_NAME:-s3_tiuac_api}:${IMAGE_TAG:-latest}
+    container_name: s3_tiuac_api
     restart: unless-stopped
     env_file:
       - .env
+    # Docker's internal DNS (127.0.0.11) falls through to the host resolver and
+    # intermittently answers "server misbehaving" — outbound SMTP then fails to
+    # resolve. External resolvers are given directly.
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     ports:
       - "8807:8807"
     volumes:

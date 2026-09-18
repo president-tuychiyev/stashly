@@ -232,5 +232,5 @@ routes                 the whole route table
 ```
 
 ```
-go run . artisan ship --user=kuadmin --ip=213.230.122.210 --port=222 --path=/home/www/stashly.tiuac.uz/api --container==stashly_tiuac_api --binary=/app/main
+go run . artisan ship --user=kuadmin --ip=213.230.122.210 --port=222 --path=/home/www/tiuac/s3.tiuac.uz/api --container=s3_tiuac_api --binary=/app/main
 ```

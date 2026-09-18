@@ -1,13 +1,111 @@
 <script setup lang="ts">
 import { darkTheme } from 'naive-ui'
+// Naive UI ships one RTL style sheet per component and only exports them under
+// the `unstable` prefix; the config provider mirrors nothing without them.
+// Components with no entry here (the menu, for one) have no RTL sheet at all
+// and simply follow the document direction.
+import {
+  unstableAlertRtl,
+  unstableAvatarGroupRtl,
+  unstableBadgeRtl,
+  unstableButtonGroupRtl,
+  unstableButtonRtl,
+  unstableCardRtl,
+  unstableCheckboxRtl,
+  unstableCollapseRtl,
+  unstableCollapseTransitionRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableDrawerRtl,
+  unstableDynamicInputRtl,
+  unstableFlexRtl,
+  unstableInputNumberRtl,
+  unstableInputOtpRtl,
+  unstableInputRtl,
+  unstableListRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstablePageHeaderRtl,
+  unstablePaginationRtl,
+  unstablePopoverRtl,
+  unstableRadioRtl,
+  unstableRowRtl,
+  unstableScrollbarRtl,
+  unstableSelectRtl,
+  unstableSpaceRtl,
+  unstableStatisticRtl,
+  unstableStepsRtl,
+  unstableTableRtl,
+  unstableTagRtl,
+  unstableThingRtl,
+  unstableTreeRtl,
+  unstableTreeSelectRtl,
+  unstableUploadsRtl,
+} from 'naive-ui'
 
 const { isDark } = useDarkMode()
+
+// Arabic, Persian and Hebrew ship with `dir: 'rtl'` in the locale list; the
+// attribute has to reach <html> for the whole page to mirror.
+const { locale, locales } = useI18n()
+const direction = computed(
+  () => (locales.value as Array<{ code: string; dir?: string }>).find((item) => item.code === locale.value)?.dir ?? 'ltr',
+)
+
+// Handing the provider the sheets only in RTL keeps the LTR render untouched.
+const rtlStyles = computed(() => (direction.value === 'rtl'
+  ? [
+    unstableAlertRtl,
+  unstableAvatarGroupRtl,
+  unstableBadgeRtl,
+  unstableButtonGroupRtl,
+  unstableButtonRtl,
+  unstableCardRtl,
+  unstableCheckboxRtl,
+  unstableCollapseRtl,
+  unstableCollapseTransitionRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableDrawerRtl,
+  unstableDynamicInputRtl,
+  unstableFlexRtl,
+  unstableInputNumberRtl,
+  unstableInputOtpRtl,
+  unstableInputRtl,
+  unstableListRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstablePageHeaderRtl,
+  unstablePaginationRtl,
+  unstablePopoverRtl,
+  unstableRadioRtl,
+  unstableRowRtl,
+  unstableScrollbarRtl,
+  unstableSelectRtl,
+  unstableSpaceRtl,
+  unstableStatisticRtl,
+  unstableStepsRtl,
+  unstableTableRtl,
+  unstableTagRtl,
+  unstableThingRtl,
+  unstableTreeRtl,
+  unstableTreeSelectRtl,
+  unstableUploadsRtl,
+  ]
+  : undefined))
+
+useHead({
+  htmlAttrs: {
+    lang: () => locale.value,
+    dir: () => direction.value,
+  },
+})
 </script>
 
 <template>
   <naive-config>
     <!-- Only the base theme lives here; the overrides come from `naiveui.themeConfig`. -->
-    <n-config-provider :theme="isDark ? darkTheme : null" inline-theme-disabled>
+    <n-config-provider :theme="isDark ? darkTheme : null" :rtl="rtlStyles" inline-theme-disabled>
       <n-dialog-provider>
         <n-message-provider :max="3">
           <NuxtLayout>

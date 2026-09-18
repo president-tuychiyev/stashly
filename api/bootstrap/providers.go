@@ -19,6 +19,7 @@ import (
 	"github.com/goravel/framework/view"
 	"github.com/goravel/gin"
 	"github.com/goravel/postgres"
+	ship "github.com/president-tuychiyev/goravel-ship"
 )
 
 func Providers() []foundation.ServiceProvider {
@@ -40,5 +41,6 @@ func Providers() []foundation.ServiceProvider {
 		&mail.ServiceProvider{},
 		&translation.ServiceProvider{},
 		&schedule.ServiceProvider{},
+		&ship.ServiceProvider{},
 	}
 }

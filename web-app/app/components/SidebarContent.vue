@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { LogOutOutline } from '@vicons/ionicons5'
 
-const { options, activeKey } = useMenu()
+const { options, activeKey, pathFor } = useMenu()
 const { logout } = useAuth()
 const drawer = useSidebarDrawer()
+
+const onSelect = async (key: string) => {
+  drawer.value = false
+
+  const path = pathFor(key)
+  if (path) {
+    await navigateTo(path)
+  }
+}
 
 const onLogout = async () => {
   drawer.value = false
@@ -18,7 +27,7 @@ const onLogout = async () => {
     </div>
 
     <div class="flex-1 overflow-y-auto">
-      <n-menu :value="activeKey" :options="options" @update:value="drawer = false" />
+      <n-menu :value="activeKey" :options="options" @update:value="onSelect" />
     </div>
 
     <div class="border-t border-gray-200 p-4 dark:border-dark-100">

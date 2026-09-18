@@ -17,6 +17,7 @@
     "@vicons/ionicons5": "^0.13.0",
     "naive-ui": "^2.44.1",
     "nuxt": "^4.4.7",
+    "nuxt-ship": "^0.1.7",
     "tailwindcss": "^4.3.0",
     "vue": "^3.5.35",
     "vue-router": "^5.1.0"

@@ -64,6 +64,15 @@ export function useMenu() {
     })),
   )
 
+  // The link only covers the label text, so a click on the icon or on the
+  // padding around it hits the row and nothing happens. The menu reports the
+  // key it was clicked on, which is turned back into a route here.
+  const pathFor = (key: string | number) => {
+    const item = items.value.find((entry) => entry.key === key)
+
+    return item ? localePath(item.path) : null
+  }
+
   const activeKey = computed(() => {
     const path = route.path
     if (path === '/' || path === '') return 'dashboard'
@@ -73,5 +82,5 @@ export function useMenu() {
     return match?.key ?? 'dashboard'
   })
 
-  return { items, options, activeKey }
+  return { items, options, activeKey, pathFor }
 }

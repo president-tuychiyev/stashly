@@ -1,0 +1,6 @@
+.git
+.env
+storage/logs/*
+storage/app/*
+tests
+*.tar.gz
