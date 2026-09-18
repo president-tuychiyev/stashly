@@ -84,6 +84,33 @@ type FileSizeUnit = (typeof FILE_SIZE_UNITS)[number]
 const quotaUnitOptions = QUOTA_UNITS.map((value) => ({ label: value, value }))
 const fileSizeUnitOptions = FILE_SIZE_UNITS.map((value) => ({ label: value, value }))
 
+// Suggestions only: the select runs in `tag` mode, so any typed value is accepted.
+const MIME_PRESETS = [
+  'image/*',
+  'video/*',
+  'audio/*',
+  'text/*',
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/svg+xml',
+  'application/pdf',
+  'application/zip',
+  'application/json',
+  'text/plain',
+  'text/csv',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+]
+const mimeOptions = MIME_PRESETS.map((value) => ({ label: value, value }))
+// MIME types are case-insensitive; normalise so `Image/PNG` matches on upload.
+const createMimeOption = (label: string) => {
+  const value = label.trim().toLowerCase()
+  return { label: value, value }
+}
+
 const formOpen = ref(false)
 const saving = ref(false)
 const editing = ref<Client | null>(null)
@@ -437,7 +464,7 @@ const removeClient = (client: Client) => {
             <n-input v-model:value="form.name" />
           </n-form-item>
           <n-form-item :label="$t('clients.username')">
-            <n-input v-model:value="form.username" />
+            <n-input v-model:value="form.username" :input-props="{ autocomplete: 'off' }" />
           </n-form-item>
         </div>
 
@@ -446,6 +473,7 @@ const removeClient = (client: Client) => {
             v-model:value="form.password"
             type="password"
             show-password-on="click"
+            :input-props="{ autocomplete: 'new-password' }"
             :placeholder="$t('clients.passwordAutoHint')"
           />
         </n-form-item>
@@ -500,7 +528,21 @@ const removeClient = (client: Client) => {
         </n-form-item>
 
         <n-form-item :label="$t('clients.allowedMimes')">
-          <n-dynamic-tags v-model:value="form.allowedMimes" />
+          <!--
+            Not n-dynamic-tags: its inline input hides itself on blur, so anything
+            that moves focus (a password manager reacting to the login/password
+            pair above, the modal's focus trap) makes the "+" look dead.
+          -->
+          <n-select
+            v-model:value="form.allowedMimes"
+            multiple
+            filterable
+            tag
+            clearable
+            :options="mimeOptions"
+            :on-create="createMimeOption"
+            :placeholder="$t('clients.allMimes')"
+          />
         </n-form-item>
         <p class="-mt-2 text-xs opacity-60">{{ $t('clients.allowedMimesHint') }}</p>
       </n-form>

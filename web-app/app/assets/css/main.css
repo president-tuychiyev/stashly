@@ -37,3 +37,13 @@
 body {
   font-family: "Saira", sans-serif;
 }
+/*
+ * vueuc positions every popup (dropdown, select menu, popover, tooltip) with a
+ * translateX measured from the left edge, but never pins `left` itself. Under
+ * `dir="rtl"` the absolute box resolves to the right edge instead, which throws
+ * the popup off-screen and gives the page a horizontal scrollbar.
+ */
+[dir="rtl"] .v-binder-follower-content {
+  left: 0;
+  right: auto;
+}

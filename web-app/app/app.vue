@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { darkTheme } from 'naive-ui'
+import { createLocale, darkTheme, enUS } from 'naive-ui'
 // Naive UI ships one RTL style sheet per component and only exports them under
 // the `unstable` prefix; the config provider mirrors nothing without them.
 // Components with no entry here (the menu, for one) have no RTL sheet at all
@@ -44,6 +44,10 @@ import {
 } from 'naive-ui'
 
 const { isDark } = useDarkMode()
+
+// Every form field already has a label, so the stock "Please Input" hint is
+// noise; fields that need a real hint still pass their own `placeholder`.
+const naiveLocale = createLocale({ Input: { placeholder: '' }, InputNumber: { placeholder: '' } }, enUS)
 
 // Arabic, Persian and Hebrew ship with `dir: 'rtl'` in the locale list; the
 // attribute has to reach <html> for the whole page to mirror.
@@ -105,7 +109,7 @@ useHead({
 <template>
   <naive-config>
     <!-- Only the base theme lives here; the overrides come from `naiveui.themeConfig`. -->
-    <n-config-provider :theme="isDark ? darkTheme : null" :rtl="rtlStyles" inline-theme-disabled>
+    <n-config-provider :theme="isDark ? darkTheme : null" :locale="naiveLocale" :rtl="rtlStyles" inline-theme-disabled>
       <n-dialog-provider>
         <n-message-provider :max="3">
           <NuxtLayout>

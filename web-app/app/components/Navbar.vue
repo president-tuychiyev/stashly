@@ -92,7 +92,15 @@ const handleUserSelect = async (key: string) => {
         </template>
       </n-button>
 
-      <n-dropdown :options="languageOptions" trigger="click" placement="bottom-end" @select="handleLanguageSelect">
+      <!-- The list is taller than most viewports, so it scrolls inside its own box. -->
+      <n-dropdown
+        :options="languageOptions"
+        trigger="click"
+        placement="bottom-end"
+        scrollable
+        class="max-h-[min(24rem,calc(100vh-5rem))]"
+        @select="handleLanguageSelect"
+      >
         <n-button size="small" quaternary :aria-label="$t('common.language')">
           <template #icon>
             <GlobeOutline />

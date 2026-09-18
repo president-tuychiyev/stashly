@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web-app",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["TMPDIR=/tmp", "npm", "--prefix", "web-app", "run", "dev", "--", "--port", "3100"],
+      "port": 3100
+    },
+    {
+      "name": "web-app-offline",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["TMPDIR=/tmp", "NUXT_PUBLIC_API_BASE=http://127.0.0.1:9", "NUXT_PUBLIC_COOKIE_SECURE=false", "npm", "--prefix", "web-app", "run", "dev", "--", "--port", "3101"],
+      "port": 3101
+    }
+  ]
+}
