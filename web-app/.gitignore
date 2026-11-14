@@ -25,3 +25,4 @@ logs
 
 # Screenshots from local UI checks
 .screenshots
+docker-compose-prod.yml

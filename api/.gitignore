@@ -6,3 +6,4 @@
 !.env.example
 storage
 tmp
+docker-compose-prod.yml
