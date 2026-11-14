@@ -3,3 +3,7 @@
 .vscode
 *.log
 server-password.txt
+node_modules/nuxt-ship/stubs/docker-compose-prod.yml
+node_modules/nuxt-ship/stubs/env.prod.example
+node_modules/nuxt-ship/stubs/Dockerfile
+.env.prod.example

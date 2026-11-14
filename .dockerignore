@@ -1,0 +1,14 @@
+node_modules
+.nuxt
+.git
+.gitignore
+.env
+.env.*
+!.env.prod.example
+README.md
+.vscode
+.idea
+*.log
+.DS_Store
+dist
+coverage
