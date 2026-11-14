@@ -1,5 +1,4 @@
-# Server amd64 — image ham amd64 bo'lishi shart (arm64 mashinada yig'ilsa ham).
-FROM --platform=linux/amd64 node:20-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -8,10 +7,10 @@ COPY .output ./.output
 
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
-    PORT=8808 \
+    PORT=8816 \
     NITRO_HOST=0.0.0.0 \
-    NITRO_PORT=8808
+    NITRO_PORT=8816
 
-EXPOSE 8808
+EXPOSE 8816
 
 CMD ["node", ".output/server/index.mjs"]

@@ -1,7 +1,0 @@
-.DS_Store
-.idea
-.vscode
-*.log
-server-password.txt
-.env.prod.example
-docker-compose-prod.yml
