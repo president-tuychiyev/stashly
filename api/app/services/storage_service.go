@@ -10,6 +10,7 @@ import (
 	"io"
 	"mime"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -473,4 +474,18 @@ func encodeAttrChar(value string) string {
 	}
 
 	return out.String()
+}
+
+func StoragePathFromURL(raw string) string {
+	parsed, err := url.Parse(strings.TrimSpace(raw))
+	if err != nil {
+		return ""
+	}
+
+	p := parsed.Path
+	if _, after, found := strings.Cut(p, "/storage/"); found {
+		p = after
+	}
+
+	return strings.TrimLeft(p, "/")
 }

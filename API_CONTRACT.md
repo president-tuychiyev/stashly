@@ -109,6 +109,7 @@ Actions: `client.create|update|delete|reset_password`, `file.upload|delete`, `ar
 | GET | `/api/files/{id}` | | `{ "data": File }` |
 | GET | `/api/files/{id}/download` | | binary, `Content-Disposition: attachment; filename="original_name"` (works for private) |
 | DELETE | `/api/files/{id}` | | 204 |
+| DELETE | `/api/files` | `{ "url": "https://host/storage/12/a/b.jpg" }` (required, max 1000; public files only; own files only) | 204; 404 when not found or when env `STORAGE_DELETE_BY_URL` is not `true` (default `false`) |
 | GET | `/api/folders` | `parent` (optional) | `{ "data": [ { "name": "avatars", "path": "avatars", "files_count": 12, "size": 12345 } ] }` |
 | POST | `/api/archives` | `{ "folders": ["a","b"], "callback_url": "https://…" }` | 202 `{ "data": Archive }` |
 | GET | `/api/archives` | `page` | paginated Archive |

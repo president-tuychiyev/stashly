@@ -207,6 +207,7 @@ func registerClientRoutes() {
 		router.Get("/files/{id}", files.Show).Name("api.files.show")
 		router.Get("/files/{id}/download", files.Download).Name("api.files.download")
 		router.Delete("/files/{id}", files.Destroy).Name("api.files.destroy")
+		router.Delete("/files", files.DestroyByURL).Name("api.files.destroy_by_url")
 
 		router.Get("/folders", folders.Index).Name("api.folders.index")
 

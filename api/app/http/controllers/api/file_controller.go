@@ -6,6 +6,7 @@ import (
 	"github.com/goravel/framework/contracts/http"
 
 	"github.com/president-tuychiyev/stashly/api/app/facades"
+	"github.com/president-tuychiyev/stashly/api/app/http/requests"
 	"github.com/president-tuychiyev/stashly/api/app/http/responses"
 	"github.com/president-tuychiyev/stashly/api/app/models"
 	"github.com/president-tuychiyev/stashly/api/app/resources"
@@ -93,6 +94,39 @@ func (r *FileController) Destroy(ctx http.Context) http.Response {
 		return responses.NotFound(ctx)
 	}
 
+	return r.destroyFile(ctx, file)
+}
+
+func (r *FileController) DestroyByURL(ctx http.Context) http.Response {
+	if !facades.Config().GetBool("storage.delete_by_url") {
+		return responses.NotFound(ctx)
+	}
+
+	var request requests.DeleteFileByURLRequest
+	if errs, err := ctx.Request().ValidateRequest(&request); err != nil {
+		return responses.Error(ctx, http.StatusInternalServerError, err.Error())
+	} else if errs != nil {
+		return responses.FromValidationErrors(ctx, errs)
+	}
+
+	storagePath := services.StoragePathFromURL(request.URL)
+	if storagePath == "" {
+		return responses.NotFound(ctx)
+	}
+
+	var file models.File
+	if err := facades.Orm().Query().
+		Where("client_id", ClientID(ctx)).
+		Where("path", storagePath).
+		Where("visibility", models.VisibilityPublic).
+		First(&file); err != nil || file.ID == 0 {
+		return responses.NotFound(ctx)
+	}
+
+	return r.destroyFile(ctx, &file)
+}
+
+func (r *FileController) destroyFile(ctx http.Context, file *models.File) http.Response {
 	if err := r.storage.Delete(file); err != nil {
 		return responses.Error(ctx, http.StatusInternalServerError, err.Error())
 	}

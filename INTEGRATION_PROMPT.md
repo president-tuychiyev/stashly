@@ -107,6 +107,7 @@ Binary, `Content-Disposition: attachment; filename="asl_nom"`. Public va private
 
 #### 5. Faylni o'chirish — `DELETE /api/files/{id}`
 `204`. Fayl diskdan va bazadan o'chadi, kvota bo'shaydi.
+Ixtiyoriy (serverda `STORAGE_DELETE_BY_URL=true` bo'lsa): `DELETE /api/files` body `{ "url": "https://host/storage/12/a/b.jpg" }` — faqat o'z public faylingiz uchun, javob `204`. Yoqilmagan bo'lsa yoki fayl topilmasa `404`.
 
 #### 6. Papkalar — `GET /api/folders`
 Query: `parent` (ixtiyoriy, masalan `docs`). Javob:

@@ -22,5 +22,7 @@ func init() {
 
 		// Maximum number of files accepted in one multiple upload request.
 		"max_files_per_request": 20,
+
+		"delete_by_url": config.Env("STORAGE_DELETE_BY_URL", false),
 	})
 }
