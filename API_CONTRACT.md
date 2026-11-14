@@ -271,7 +271,7 @@ Deleting a client clears cache key `client:{username}`.
 | GET | `/admin/audit-logs` | `actor_type`, `action`, `subject_type`, pagination | paginated AuditLog |
 
 ### Storage tools
-| POST | `/admin/storage/sync` (super_admin only, `admin` gets 403) | | `{ "orphans_on_disk": n, "missing_on_disk": m, "removed_records": k, "removed_files": j, "errors": e }` (`errors` counts rows that could not be judged, e.g. stat failed with something other than "does not exist"; those rows are never deleted) — same as `artisan storage:sync` |
+| POST | `/admin/storage/sync` (super_admin only, `admin` gets 403) | optional body `orphans`: `delete` (default) or `register`, anything else 422 | `{ "orphans_on_disk": n, "missing_on_disk": m, "removed_records": k, "removed_files": j, "registered_files": r, "skipped_files": s, "errors": e }` (`errors` counts rows that could not be judged, e.g. stat failed with something other than "does not exist"; those rows are never deleted). Rows whose file is missing are always deleted. Files on disk without a row are deleted (`delete`, `removed_files`) or inserted in place (`register`, `registered_files`; `removed_files` stays 0). `register` takes visibility from the disk and the owner from the first path segment, which must be an existing client id; files directly in the disk root, under an unknown client id, or whose path belongs to a soft-deleted row are left alone and counted in `skipped_files` — same as `artisan storage:sync [--orphans=delete\|register]` |
 
 ---
 

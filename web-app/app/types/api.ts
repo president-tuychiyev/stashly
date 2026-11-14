@@ -153,5 +153,7 @@ export interface StorageSyncResult {
   missing_on_disk: number
   removed_records: number
   removed_files: number
+  registered_files: number
+  skipped_files: number
   errors: number
 }

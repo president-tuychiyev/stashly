@@ -281,6 +281,11 @@
     "missingOnDisk": "Отсутствуют на диске",
     "removedRecords": "Удалённые записи",
     "removedFiles": "Удалённые файлы",
+    "orphansLabel": "Файлы на диске, которых нет в базе данных",
+    "orphansDelete": "Удалить их",
+    "orphansRegister": "Добавить их в базу данных",
+    "registeredFiles": "Добавленные файлы",
+    "skippedFiles": "Пропущенные файлы",
     "errors": "Ошибки"
   },
   "fields": {

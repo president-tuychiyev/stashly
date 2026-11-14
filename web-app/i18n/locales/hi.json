@@ -256,6 +256,11 @@
     "missingOnDisk": "डिस्क पर गायब",
     "removedRecords": "हटाए गए रिकॉर्ड",
     "removedFiles": "हटाई गई फ़ाइलें",
+    "orphansLabel": "डिस्क पर मौजूद फ़ाइलें जो डेटाबेस में नहीं हैं",
+    "orphansDelete": "उन्हें हटाएँ",
+    "orphansRegister": "उन्हें डेटाबेस में जोड़ें",
+    "registeredFiles": "पंजीकृत फ़ाइलें",
+    "skippedFiles": "छोड़ी गई फ़ाइलें",
     "errors": "त्रुटियाँ"
   },
   "fields": {

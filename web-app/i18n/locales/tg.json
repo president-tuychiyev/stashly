@@ -256,6 +256,11 @@
     "missingOnDisk": "Дар диск нопадид",
     "removedRecords": "Сабтҳои нестшуда",
     "removedFiles": "Файлҳои нестшуда",
+    "orphansLabel": "Файлҳое, ки дар диск ҳастанд, вале дар пойгоҳи додаҳо нестанд",
+    "orphansDelete": "Нест кардан",
+    "orphansRegister": "Ба пойгоҳи додаҳо илова кардан",
+    "registeredFiles": "Файлҳои сабтшуда",
+    "skippedFiles": "Файлҳои гузаронидашуда",
     "errors": "Хатоҳо"
   },
   "fields": {

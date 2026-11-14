@@ -281,6 +281,11 @@
     "missingOnDisk": "Diskda yo'q fayllar",
     "removedRecords": "O'chirilgan yozuvlar",
     "removedFiles": "O'chirilgan fayllar",
+    "orphansLabel": "Diskda bor, lekin bazada yo'q fayllar",
+    "orphansDelete": "Ularni o'chirish",
+    "orphansRegister": "Ularni bazaga qo'shish",
+    "registeredFiles": "Qo'shilgan fayllar",
+    "skippedFiles": "O'tkazib yuborilgan fayllar",
     "errors": "Xatoliklar"
   },
   "fields": {

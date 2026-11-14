@@ -256,6 +256,11 @@
     "missingOnDisk": "گمشده روی دیسک",
     "removedRecords": "رکوردهای حذف‌شده",
     "removedFiles": "فایل‌های حذف‌شده",
+    "orphansLabel": "فایل‌های روی دیسک که در پایگاه داده نیستند",
+    "orphansDelete": "حذف آن‌ها",
+    "orphansRegister": "افزودن آن‌ها به پایگاه داده",
+    "registeredFiles": "فایل‌های ثبت‌شده",
+    "skippedFiles": "فایل‌های ردشده",
     "errors": "خطاها"
   },
   "fields": {

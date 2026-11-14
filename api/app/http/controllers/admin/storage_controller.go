@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/goravel/framework/contracts/http"
 
+	"github.com/president-tuychiyev/stashly/api/app/http/requests"
 	"github.com/president-tuychiyev/stashly/api/app/http/responses"
 	"github.com/president-tuychiyev/stashly/api/app/services"
 )
@@ -24,16 +25,25 @@ func (r *StorageController) Sync(ctx http.Context) http.Response {
 		return responses.Error(ctx, http.StatusForbidden, "Forbidden")
 	}
 
-	report, err := r.storage.Sync()
+	var request requests.StorageSyncRequest
+	if errs, err := ctx.Request().ValidateRequest(&request); err != nil {
+		return responses.Error(ctx, http.StatusInternalServerError, err.Error())
+	} else if errs != nil {
+		return responses.FromValidationErrors(ctx, errs)
+	}
+
+	report, err := r.storage.Sync(request.Orphans)
 	if err != nil {
 		return responses.Error(ctx, http.StatusInternalServerError, err.Error())
 	}
 
 	return ctx.Response().Success().Json(http.Json{
-		"orphans_on_disk": report.OrphansOnDisk,
-		"missing_on_disk": report.MissingOnDisk,
-		"removed_records": report.RemovedRecords,
-		"removed_files":   report.RemovedFiles,
-		"errors":          report.Errors,
+		"orphans_on_disk":  report.OrphansOnDisk,
+		"missing_on_disk":  report.MissingOnDisk,
+		"removed_records":  report.RemovedRecords,
+		"removed_files":    report.RemovedFiles,
+		"registered_files": report.RegisteredFiles,
+		"skipped_files":    report.SkippedFiles,
+		"errors":           report.Errors,
 	})
 }

@@ -256,6 +256,11 @@
     "missingOnDisk": "ディスク上に存在しない",
     "removedRecords": "削除したレコード",
     "removedFiles": "削除したファイル",
+    "orphansLabel": "ディスク上にあってデータベースにないファイル",
+    "orphansDelete": "削除する",
+    "orphansRegister": "データベースに追加する",
+    "registeredFiles": "登録したファイル",
+    "skippedFiles": "スキップしたファイル",
     "errors": "エラー"
   },
   "fields": {

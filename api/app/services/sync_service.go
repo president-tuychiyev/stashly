@@ -1,22 +1,40 @@
 package services
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"errors"
+	"io"
 	"io/fs"
+	"mime"
+	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/goravel/framework/support/carbon"
 
 	"github.com/president-tuychiyev/stashly/api/app/facades"
 	"github.com/president-tuychiyev/stashly/api/app/models"
 )
 
+const (
+	SyncOrphansDelete   = "delete"
+	SyncOrphansRegister = "register"
+)
+
+var ErrInvalidOrphansMode = errors.New("orphans must be delete or register")
+
 // SyncReport summarises one reconciliation run between database and disk.
 type SyncReport struct {
-	OrphansOnDisk  int `json:"orphans_on_disk"`
-	MissingOnDisk  int `json:"missing_on_disk"`
-	RemovedRecords int `json:"removed_records"`
-	RemovedFiles   int `json:"removed_files"`
+	OrphansOnDisk   int `json:"orphans_on_disk"`
+	MissingOnDisk   int `json:"missing_on_disk"`
+	RemovedRecords  int `json:"removed_records"`
+	RemovedFiles    int `json:"removed_files"`
+	RegisteredFiles int `json:"registered_files"`
+	SkippedFiles    int `json:"skipped_files"`
 	// Errors counts the records that could not be judged at all, because the
 	// path could not be resolved or stat() failed with something other than
 	// "does not exist". Those rows are left alone on purpose: a permission
@@ -25,9 +43,18 @@ type SyncReport struct {
 }
 
 // Sync compares the files table with the public and private disks. Records
-// without a file are deleted, files without a record are removed from disk.
-func (r *StorageService) Sync() (SyncReport, error) {
+// without a file are deleted. Files without a record are removed from disk, or
+// registered in place when orphans is SyncOrphansRegister.
+func (r *StorageService) Sync(orphans string) (SyncReport, error) {
 	report := SyncReport{}
+
+	if orphans == "" {
+		orphans = SyncOrphansDelete
+	}
+	if orphans != SyncOrphansDelete && orphans != SyncOrphansRegister {
+		return report, ErrInvalidOrphansMode
+	}
+	clients := map[uint]bool{}
 
 	// Everything written after this moment is younger than the snapshot below
 	// and therefore cannot be judged against it. One minute of margin covers
@@ -103,6 +130,12 @@ func (r *StorageService) Sync() (SyncReport, error) {
 				return nil
 			}
 
+			if orphans == SyncOrphansRegister {
+				r.registerOrphan(disk, current, relative, clients, &report)
+
+				return nil
+			}
+
 			// The snapshot may also be stale by now, so ask the database once
 			// more right before the unlink.
 			exists, existsErr := facades.Orm().Query().Model(&models.File{}).
@@ -124,6 +157,124 @@ func (r *StorageService) Sync() (SyncReport, error) {
 	}
 
 	return report, nil
+}
+
+func (r *StorageService) registerOrphan(disk, current, relative string, clients map[uint]bool, report *SyncReport) {
+	info, err := os.Lstat(current)
+	if err != nil || !info.Mode().IsRegular() {
+		return
+	}
+
+	trashed, err := facades.Orm().Query().WithTrashed().Model(&models.File{}).Where("path", relative).Exists()
+	if err != nil {
+		return
+	}
+	report.OrphansOnDisk++
+	if trashed {
+		report.SkippedFiles++
+
+		return
+	}
+
+	clientID, folder, ok := ownerAndFolder(relative)
+	if ok {
+		known, cached := clients[clientID]
+		if !cached {
+			known, err = facades.Orm().Query().Model(&models.Client{}).Where("id", clientID).Exists()
+			if err != nil {
+				report.Errors++
+
+				return
+			}
+			clients[clientID] = known
+		}
+		ok = known
+	}
+	if !ok {
+		report.SkippedFiles++
+
+		return
+	}
+
+	record, err := buildFileRecord(disk, current, relative, clientID, folder, info)
+	if err == nil {
+		err = facades.Orm().Query().Create(record)
+	}
+	if err != nil {
+		report.Errors++
+		facades.Log().Warning("storage sync could not register a file: " + relative + ": " + err.Error())
+
+		return
+	}
+
+	report.RegisteredFiles++
+}
+
+func ownerAndFolder(relative string) (uint, string, bool) {
+	parts := strings.Split(relative, "/")
+	if len(parts) < 2 {
+		return 0, "", false
+	}
+
+	id, err := strconv.ParseUint(parts[0], 10, 32)
+	if err != nil || id == 0 || strconv.FormatUint(id, 10) != parts[0] {
+		return 0, "", false
+	}
+
+	return uint(id), strings.Join(parts[1:len(parts)-1], "/"), true
+}
+
+func buildFileRecord(disk, current, relative string, clientID uint, folder string, info os.FileInfo) (*models.File, error) {
+	source, err := os.Open(current)
+	if err != nil {
+		return nil, err
+	}
+	defer source.Close()
+
+	head := make([]byte, 512)
+	read, err := io.ReadFull(source, head)
+	if err != nil && !errors.Is(err, io.EOF) && !errors.Is(err, io.ErrUnexpectedEOF) {
+		return nil, err
+	}
+
+	digest := sha256.New()
+	digest.Write(head[:read])
+	rest, err := io.Copy(digest, source)
+	if err != nil {
+		return nil, err
+	}
+
+	name := filepath.Base(current)
+	extension := strings.ToLower(strings.TrimPrefix(filepath.Ext(name), "."))
+	if len(extension) > 20 {
+		extension = extension[:20]
+	}
+
+	detected := trimMimeParameters(http.DetectContentType(head[:read]))
+	if detected == "application/octet-stream" && extension != "" {
+		if guess := trimMimeParameters(mime.TypeByExtension("." + extension)); guess != "" {
+			detected = guess
+		}
+	}
+
+	modified := carbon.NewDateTime(carbon.FromStdTime(info.ModTime()))
+
+	record := &models.File{
+		ClientID:     clientID,
+		Folder:       folder,
+		Name:         name,
+		OriginalName: name,
+		Path:         relative,
+		Mime:         detected,
+		Extension:    extension,
+		Size:         int64(read) + rest,
+		Sha256:       hex.EncodeToString(digest.Sum(nil)),
+		Visibility:   visibilityOf(disk),
+	}
+	record.CreatedAt = modified
+	record.UpdatedAt = modified
+
+	return record, nil
 }
 
 // visibilityOf maps a disk name back onto the visibility column.

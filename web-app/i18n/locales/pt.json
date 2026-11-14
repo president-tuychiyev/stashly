@@ -256,6 +256,11 @@
     "missingOnDisk": "Em falta no disco",
     "removedRecords": "Registos removidos",
     "removedFiles": "Ficheiros removidos",
+    "orphansLabel": "Ficheiros no disco que não estão na base de dados",
+    "orphansDelete": "Eliminá-los",
+    "orphansRegister": "Adicioná-los à base de dados",
+    "registeredFiles": "Ficheiros registados",
+    "skippedFiles": "Ficheiros ignorados",
     "errors": "Erros"
   },
   "fields": {

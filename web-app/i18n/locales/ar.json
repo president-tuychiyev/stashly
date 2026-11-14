@@ -256,6 +256,11 @@
     "missingOnDisk": "مفقودة على القرص",
     "removedRecords": "السجلات المحذوفة",
     "removedFiles": "الملفات المحذوفة",
+    "orphansLabel": "الملفات الموجودة على القرص وغير الموجودة في قاعدة البيانات",
+    "orphansDelete": "حذفها",
+    "orphansRegister": "إضافتها إلى قاعدة البيانات",
+    "registeredFiles": "الملفات المسجّلة",
+    "skippedFiles": "الملفات المتجاوزة",
     "errors": "الأخطاء"
   },
   "fields": {

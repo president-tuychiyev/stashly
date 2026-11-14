@@ -281,6 +281,11 @@
     "missingOnDisk": "Diskte eksik",
     "removedRecords": "Silinen kayıtlar",
     "removedFiles": "Silinen dosyalar",
+    "orphansLabel": "Diskte olup veritabanında olmayan dosyalar",
+    "orphansDelete": "Sil",
+    "orphansRegister": "Veritabanına ekle",
+    "registeredFiles": "Eklenen dosyalar",
+    "skippedFiles": "Atlanan dosyalar",
     "errors": "Hatalar"
   },
   "fields": {

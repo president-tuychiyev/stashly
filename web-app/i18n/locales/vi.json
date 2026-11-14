@@ -256,6 +256,11 @@
     "missingOnDisk": "Thiếu trên đĩa",
     "removedRecords": "Bản ghi đã xóa",
     "removedFiles": "Tệp đã xóa",
+    "orphansLabel": "Tệp trên đĩa không có trong cơ sở dữ liệu",
+    "orphansDelete": "Xóa chúng",
+    "orphansRegister": "Thêm vào cơ sở dữ liệu",
+    "registeredFiles": "Tệp đã đăng ký",
+    "skippedFiles": "Tệp đã bỏ qua",
     "errors": "Lỗi"
   },
   "fields": {

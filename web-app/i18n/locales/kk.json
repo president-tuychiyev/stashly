@@ -256,6 +256,11 @@
     "missingOnDisk": "Дискіде жоқ",
     "removedRecords": "Жойылған жазбалар",
     "removedFiles": "Жойылған файлдар",
+    "orphansLabel": "Дискіде бар, бірақ дерекқорда жоқ файлдар",
+    "orphansDelete": "Жою",
+    "orphansRegister": "Дерекқорға қосу",
+    "registeredFiles": "Тіркелген файлдар",
+    "skippedFiles": "Өткізіп жіберілген файлдар",
     "errors": "Қателер"
   },
   "fields": {

@@ -256,6 +256,11 @@
     "missingOnDisk": "Відсутні на диску",
     "removedRecords": "Видалені записи",
     "removedFiles": "Видалені файли",
+    "orphansLabel": "Файли на диску, яких немає в базі даних",
+    "orphansDelete": "Видалити їх",
+    "orphansRegister": "Додати їх до бази даних",
+    "registeredFiles": "Додані файли",
+    "skippedFiles": "Пропущені файли",
     "errors": "Помилки"
   },
   "fields": {

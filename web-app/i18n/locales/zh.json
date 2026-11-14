@@ -256,6 +256,11 @@
     "missingOnDisk": "磁盘上缺失",
     "removedRecords": "已删除记录",
     "removedFiles": "已删除文件",
+    "orphansLabel": "磁盘上存在但不在数据库中的文件",
+    "orphansDelete": "删除这些文件",
+    "orphansRegister": "将它们添加到数据库",
+    "registeredFiles": "已登记文件",
+    "skippedFiles": "已跳过文件",
     "errors": "错误"
   },
   "fields": {

@@ -256,6 +256,11 @@
     "missingOnDisk": "חסרים בדיסק",
     "removedRecords": "רשומות שהוסרו",
     "removedFiles": "קבצים שהוסרו",
+    "orphansLabel": "קבצים בדיסק שאינם במסד הנתונים",
+    "orphansDelete": "למחוק אותם",
+    "orphansRegister": "להוסיף אותם למסד הנתונים",
+    "registeredFiles": "קבצים שנרשמו",
+    "skippedFiles": "קבצים שדולגו",
     "errors": "שגיאות"
   },
   "fields": {

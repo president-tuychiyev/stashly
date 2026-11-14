@@ -281,6 +281,11 @@
     "missingOnDisk": "Missing on disk",
     "removedRecords": "Removed records",
     "removedFiles": "Removed files",
+    "orphansLabel": "Files on disk that are not in the database",
+    "orphansDelete": "Delete them",
+    "orphansRegister": "Add them to the database",
+    "registeredFiles": "Registered files",
+    "skippedFiles": "Skipped files",
     "errors": "Errors"
   },
   "fields": {

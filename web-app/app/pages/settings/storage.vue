@@ -22,6 +22,8 @@ const rows = computed(() => [
   { key: 'missing_on_disk', label: t('storage.missingOnDisk'), value: result.value?.missing_on_disk ?? 0 },
   { key: 'removed_records', label: t('storage.removedRecords'), value: result.value?.removed_records ?? 0 },
   { key: 'removed_files', label: t('storage.removedFiles'), value: result.value?.removed_files ?? 0 },
+  { key: 'registered_files', label: t('storage.registeredFiles'), value: result.value?.registered_files ?? 0 },
+  { key: 'skipped_files', label: t('storage.skippedFiles'), value: result.value?.skipped_files ?? 0 },
   { key: 'errors', label: t('storage.errors'), value: result.value?.errors ?? 0 },
 ])
 

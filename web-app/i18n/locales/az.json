@@ -256,6 +256,11 @@
     "missingOnDisk": "Diskdə çatışmır",
     "removedRecords": "Silinən qeydlər",
     "removedFiles": "Silinən fayllar",
+    "orphansLabel": "Diskdə olan, lakin bazada olmayan fayllar",
+    "orphansDelete": "Onları sil",
+    "orphansRegister": "Onları bazaya əlavə et",
+    "registeredFiles": "Əlavə edilən fayllar",
+    "skippedFiles": "Atlanan fayllar",
     "errors": "Xətalar"
   },
   "fields": {

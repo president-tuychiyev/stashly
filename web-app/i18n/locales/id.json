@@ -256,6 +256,11 @@
     "missingOnDisk": "Hilang di disk",
     "removedRecords": "Catatan terhapus",
     "removedFiles": "Berkas terhapus",
+    "orphansLabel": "Berkas di disk yang tidak ada di basis data",
+    "orphansDelete": "Hapus",
+    "orphansRegister": "Tambahkan ke basis data",
+    "registeredFiles": "Berkas terdaftar",
+    "skippedFiles": "Berkas dilewati",
     "errors": "Kesalahan"
   },
   "fields": {

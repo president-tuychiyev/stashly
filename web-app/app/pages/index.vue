@@ -71,6 +71,11 @@ const runSync = () =>
           files: result.removed_files,
         }),
       )
+      if (result.registered_files || result.skipped_files) {
+        message.info(
+          `${t('storage.registeredFiles')}: ${result.registered_files}, ${t('storage.skippedFiles')}: ${result.skipped_files}`,
+        )
+      }
       if (result.errors) message.warning(`${t('storage.errors')}: ${result.errors}`)
       await load()
     },

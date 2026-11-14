@@ -256,6 +256,11 @@
     "missingOnDisk": "디스크에 없음",
     "removedRecords": "삭제된 레코드",
     "removedFiles": "삭제된 파일",
+    "orphansLabel": "디스크에는 있지만 데이터베이스에 없는 파일",
+    "orphansDelete": "삭제",
+    "orphansRegister": "데이터베이스에 추가",
+    "registeredFiles": "등록한 파일",
+    "skippedFiles": "건너뛴 파일",
     "errors": "오류"
   },
   "fields": {
