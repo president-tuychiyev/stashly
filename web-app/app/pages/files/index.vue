@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CloudUploadOutline, DownloadOutline, FolderOutline, TrashOutline } from '@vicons/ionicons5'
+import { NImagePreview } from 'naive-ui'
 import type { UploadFileInfo } from 'naive-ui'
 import type { ApiError, FileItem, Folder, Paginated, Visibility } from '~/types/api'
 
@@ -174,6 +175,18 @@ const download = async (file: FileItem) => {
   } catch (e) {
     message.error((e as ApiError).message)
   }
+}
+
+const previewUrl = ref<string | null>(null)
+const showPreview = ref(false)
+
+const open = (file: FileItem) => {
+  if (isPreviewable(file.mime, file.url)) {
+    previewUrl.value = file.url
+    showPreview.value = true
+    return
+  }
+  download(file)
 }
 
 const removeFile = (file: FileItem) => {
@@ -411,15 +424,19 @@ const submitUpload = async () => {
               :checked="selected.includes(file.id)"
               @update:checked="(checked: boolean) => toggleOne(file.id, checked)"
             />
-            <img
-              v-if="isPreviewable(file.mime, file.url)"
-              :src="file.url!"
-              :alt="file.original_name"
-              class="h-12 w-12 shrink-0 rounded object-cover"
-            >
-            <MimeIcon v-else :mime="file.mime" :size="24" />
+            <button type="button" class="shrink-0 cursor-pointer" :aria-label="file.original_name" @click="open(file)">
+              <img
+                v-if="isPreviewable(file.mime, file.url)"
+                :src="file.url!"
+                :alt="file.original_name"
+                class="h-12 w-12 rounded object-cover"
+              >
+              <MimeIcon v-else :mime="file.mime" :size="24" />
+            </button>
             <div class="min-w-0 flex-1">
-              <p class="truncate text-sm font-medium">{{ file.original_name }}</p>
+              <button type="button" class="block w-full cursor-pointer truncate text-left text-sm font-medium" @click="open(file)">
+                {{ file.original_name }}
+              </button>
               <p class="truncate text-xs opacity-60">{{ file.mime }} · {{ formatBytes(file.size) }}</p>
               <p class="text-xs opacity-60">{{ formatDate(file.created_at) }}</p>
               <n-tag size="tiny" :type="file.visibility === 'public' ? 'success' : 'default'" class="mt-1">
@@ -464,15 +481,21 @@ const submitUpload = async () => {
                     />
                   </td>
                   <td>
-                    <img
-                      v-if="isPreviewable(file.mime, file.url)"
-                      :src="file.url!"
-                      :alt="file.original_name"
-                      class="h-9 w-9 rounded object-cover"
-                    >
-                    <MimeIcon v-else :mime="file.mime" />
+                    <button type="button" class="cursor-pointer" :aria-label="file.original_name" @click="open(file)">
+                      <img
+                        v-if="isPreviewable(file.mime, file.url)"
+                        :src="file.url!"
+                        :alt="file.original_name"
+                        class="h-9 w-9 rounded object-cover"
+                      >
+                      <MimeIcon v-else :mime="file.mime" />
+                    </button>
                   </td>
-                  <td class="max-w-[18rem] truncate font-medium">{{ file.original_name }}</td>
+                  <td class="max-w-[18rem] truncate font-medium">
+                    <button type="button" class="max-w-full cursor-pointer truncate text-left font-medium" @click="open(file)">
+                      {{ file.original_name }}
+                    </button>
+                  </td>
                   <td class="max-w-[14rem] truncate font-mono text-xs opacity-60">{{ file.name }}</td>
                   <td class="whitespace-nowrap">{{ formatBytes(file.size) }}</td>
                   <td>
@@ -569,5 +592,7 @@ const submitUpload = async () => {
         </div>
       </template>
     </ResponsiveDialog>
+
+    <n-image-preview v-model:show="showPreview" :src="previewUrl ?? undefined" />
   </div>
 </template>
