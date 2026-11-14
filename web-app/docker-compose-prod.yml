@@ -1,15 +1,14 @@
 services:
-  s3_tiuac_web:
-    image: ${IMAGE_NAME:-s3_tiuac_web}:${IMAGE_TAG:-latest}
-    container_name: s3_tiuac_web
+  s3_example_web:
+    image: ${IMAGE_NAME:-s3_example_web}:${IMAGE_TAG:-latest}
+    container_name: s3_example_web
     restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "8808:8808"
+      - "8001:8001"
     networks:
-      - president
-
+      - example_network
 networks:
-  president:
+  example_network:
     external: true

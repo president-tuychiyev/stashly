@@ -1,7 +1,7 @@
 services:
-  s3_tiuac_api:
-    image: ${IMAGE_NAME:-s3_tiuac_api}:${IMAGE_TAG:-latest}
-    container_name: s3_tiuac_api
+  s3_example_api:
+    image: ${IMAGE_NAME:-s3_example_api}:${IMAGE_TAG:-latest}
+    container_name: s3_example_api
     restart: unless-stopped
     env_file:
       - .env
@@ -12,12 +12,12 @@ services:
       - 8.8.8.8
       - 1.1.1.1
     ports:
-      - "8807:8807"
+      - "8000:8000"
     volumes:
       - ./storage:/app/storage
     networks:
-      - president
+      - example_network
 
 networks:
-  president:
+  example_network:
     external: true
