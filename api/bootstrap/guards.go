@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"os"
 	"strings"
 
 	"github.com/president-tuychiyev/stashly/api/app/facades"
@@ -13,6 +14,10 @@ import (
 // be forgeable by anybody who knows the address and the purpose, because the
 // HMAC would be keyed with nothing.
 func CheckSecrets() {
+	if len(os.Args) > 1 && os.Args[1] == "artisan" {
+		return
+	}
+
 	if strings.TrimSpace(facades.Config().GetString("app.key")) == "" {
 		facades.Log().Fatal(
 			"APP_KEY is empty: the one time code digests and the encrypter are keyed with it. " +

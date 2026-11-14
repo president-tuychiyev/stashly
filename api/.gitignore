@@ -7,3 +7,5 @@
 storage
 tmp
 docker-compose-prod.yml
+Dockerfile
+*.tar.gz
